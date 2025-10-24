@@ -1,0 +1,22 @@
+
+name: api-ci
+on:
+  push:
+    paths:
+      - 'src/Api/**'
+      - '.github/workflows/api-ci.yml'
+  pull_request:
+    paths:
+      - 'src/Api/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore src/Api/Api.csproj
+      - name: Build
+        run: dotnet build src/Api/Api.csproj --configuration Release --no-restore
